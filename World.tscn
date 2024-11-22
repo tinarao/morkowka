@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3 uid="uid://cgkcqexuk3pxq"]
+
+[ext_resource type="Texture2D" uid="uid://8dgfhbhsyqs1" path="res://assets/Sprout Lands color pallet/Sprout Lands defautlt palette.png" id="1_f4kai"]
+[ext_resource type="PackedScene" uid="uid://c6e5pttyr0ghe" path="res://scenes/player/player.tscn" id="2_mjnra"]
+
+[node name="World" type="Node2D"]
+
+[node name="SproutLandsDefautltPalette" type="Sprite2D" parent="."]
+position = Vector2(386, 162)
+scale = Vector2(97.2854, 139.557)
+texture = ExtResource("1_f4kai")
+
+[node name="CharacterBody2D" parent="." instance=ExtResource("2_mjnra")]
+position = Vector2(371, 202)
