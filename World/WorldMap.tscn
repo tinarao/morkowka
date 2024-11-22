@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://bjmr012dgik4j"]
+[gd_scene load_steps=8 format=3 uid="uid://djuokxnepox0f"]
 
 [ext_resource type="Texture2D" uid="uid://dlh5kgf77q3q2" path="res://assets/Tilesets/Grass.png" id="1_1sts5"]
 [ext_resource type="Texture2D" uid="uid://iho4vkcqnpnx" path="res://assets/Tilesets/Tilled_Dirt_Wide.png" id="2_02cnx"]
