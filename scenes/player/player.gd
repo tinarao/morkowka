@@ -29,7 +29,7 @@ var stateDict: Dictionary = {
 
 var direction: Direction = Direction.Down
 var state: State = State.Idle
-
+var move_vec: Vector2 = Vector2.ZERO
 var anim_name: String
 
 func _process(_delta: float) -> void:
@@ -42,7 +42,7 @@ func _physics_process(_delta: float) -> void:
 	move_and_slide()
 
 func handle_movement() -> void:
-	var move_vec = Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
+	move_vec = Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
 	velocity = move_vec * SPEED
 
 func handle_directions() -> void:
@@ -59,7 +59,6 @@ func handle_directions() -> void:
 		direction = Direction.Down
 
 func handle_states() -> void:
-	var move_vec = Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
 	if move_vec == Vector2.ZERO:
 		state = State.Idle
 	else:

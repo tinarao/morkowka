@@ -172,7 +172,7 @@ zoom = Vector2(3, 3)
 position = Vector2(0, -8)
 sprite_frames = SubResource("SpriteFrames_f62c6")
 animation = &"idle_up"
-frame_progress = 0.25566
+frame_progress = 0.268014
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, -2)
