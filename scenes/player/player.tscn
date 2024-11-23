@@ -241,7 +241,8 @@ radius = 2.0
 height = 10.0
 
 [node name="Player" type="CharacterBody2D"]
-collision_mask = 7
+z_index = 1
+collision_mask = 15
 script = ExtResource("1_vu3vp")
 
 [node name="Camera2D" type="Camera2D" parent="."]
@@ -256,6 +257,7 @@ drag_bottom_margin = 0.05
 script = ExtResource("2_n4qil")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+y_sort_enabled = true
 position = Vector2(0, -8)
 sprite_frames = SubResource("SpriteFrames_f62c6")
 animation = &"treechop_up"

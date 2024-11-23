@@ -26,9 +26,10 @@ script = SubResource("GDScript_xgf1e")
 position = Vector2(281, -183)
 
 [node name="WorldMap" parent="." instance=ExtResource("2_ix0o6")]
-position = Vector2(901, 31)
+z_index = 1
+position = Vector2(-889, 73)
 
 [node name="GameScreen" parent="." instance=ExtResource("4_03rio")]
 
 [node name="Player" parent="." instance=ExtResource("2_an0rt")]
-position = Vector2(54.278, 36.9714)
+position = Vector2(-505, 385)
