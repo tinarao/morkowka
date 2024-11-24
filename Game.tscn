@@ -27,6 +27,7 @@ position = Vector2(281, -183)
 
 [node name="WorldMap" parent="." instance=ExtResource("2_ix0o6")]
 z_index = 1
+y_sort_enabled = true
 position = Vector2(-889, 73)
 
 [node name="GameScreen" parent="." instance=ExtResource("4_03rio")]
@@ -34,4 +35,5 @@ position = Vector2(-889, 73)
 [node name="Player" parent="." instance=ExtResource("2_an0rt")]
 position = Vector2(-505, 385)
 
+[connection signal="plant_beetroot_signal" from="Player" to="WorldMap" method="_on_player_plant_beetroot_signal"]
 [connection signal="plow_signal" from="Player" to="WorldMap" method="_on_player_plow_signal"]

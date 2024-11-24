@@ -29,11 +29,11 @@ var selected_item_label: String = hand_items_labels[selected_item]
 
 # Signals
 signal plow_signal
+signal plant_beetroot_signal
 
 func _ready() -> void:
 	anim_tree.active = true
 	seeds["beetroot"] = 8
-	pass
 
 func _process(_delta: float) -> void:
 	handle_animations()
@@ -55,6 +55,9 @@ func _input(event: InputEvent) -> void:
 		selected_item = HandItems.Hoe
 	elif event.as_text() == "2":
 		selected_item = HandItems.BeetrootSeeds
+
+	if Input.is_action_just_pressed("action"):
+		handle_actions()
 
 func handle_animations() -> void:
 	anim_tree.set("parameters/conditions/is_idle", velocity == Vector2.ZERO)
@@ -84,4 +87,4 @@ func plow() -> void:
 	plow_signal.emit()
 
 func plant_beetroot() -> void:
-	pass
+	plant_beetroot_signal.emit()
