@@ -1,9 +1,8 @@
 extends TileMap
 
-const GROUND_LAYER = 0
-const GRASS_LAYER = 1
-
-const PLOWS_LAYER = 2
+const GROUND_LAYER: int = 0
+const GRASS_LAYER: int = 1
+const PLOWS_LAYER: int = 2
 
 @onready var player = get_parent().get_node("Player")
 
@@ -29,20 +28,7 @@ var avaliable_to_crop_tiles_atlas: Array = [
 	Vector2i(5, 6),
 ]
 
-func _process(_delta: float) -> void:
-	pass
-
-func _input(_event: InputEvent) -> void:
-	if Input.is_action_just_pressed("ui_mouse_leftclick"):
-		plow_a_tile()
-
 func plow_a_tile():
-	if player.selected_item_label != "hoe":
-		return
-
-	if player.seeds["beetroot"] == 0:
-		return
-	
 	var mouse_pos = get_local_mouse_position()
 	var tile_coordinates: = local_to_map(mouse_pos)
 	var is_tile_exists: bool = false
@@ -67,4 +53,5 @@ func plow_a_tile():
 	set_cell(PLOWS_LAYER, tile_coordinates, 3, crop_atlas_pos)
 	set_cells_terrain_connect(PLOWS_LAYER, plowed_tiles, 0, 1, false)
 
-
+func _on_player_plow_signal() -> void:
+	plow_a_tile()

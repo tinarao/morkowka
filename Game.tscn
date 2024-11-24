@@ -33,3 +33,5 @@ position = Vector2(-889, 73)
 
 [node name="Player" parent="." instance=ExtResource("2_an0rt")]
 position = Vector2(-505, 385)
+
+[connection signal="plow_signal" from="Player" to="WorldMap" method="_on_player_plow_signal"]
