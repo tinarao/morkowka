@@ -3,6 +3,13 @@ extends TileMap
 const GROUND_LAYER = 0
 const GRASS_LAYER = 1
 
+const PLOWS_LAYER = 2
+
+@onready var player = get_parent().get_node("Player")
+
+# Vector2i[]
+var plowed_tiles = []
+
 var avaliable_to_crop_tiles_atlas: Array = [
 	Vector2i(1, 1),
 	Vector2i(10, 4),
@@ -22,14 +29,6 @@ var avaliable_to_crop_tiles_atlas: Array = [
 	Vector2i(5, 6),
 ]
 
-# (0,5) -> (5,5)
-
-# Called when the node enters the scene tree for the first time.
-func _ready() -> void:
-	pass # Replace with function body.
-
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta: float) -> void:
 	pass
 
@@ -37,13 +36,15 @@ func _input(_event: InputEvent) -> void:
 	if Input.is_action_just_pressed("ui_mouse_leftclick"):
 		plow_a_tile()
 
-
 func plow_a_tile():
-	# Gets tile position
-	# Plows it
+	if player.selected_item_label != "hoe":
+		return
 
+	if player.seeds["beetroot"] == 0:
+		return
+	
 	var mouse_pos = get_local_mouse_position()
-	var tile_coordinates = local_to_map(mouse_pos)
+	var tile_coordinates: = local_to_map(mouse_pos)
 	var is_tile_exists: bool = false
 
 	var goal_layer: int = 0
@@ -53,16 +54,17 @@ func plow_a_tile():
 			continue
 
 		is_tile_exists = true
-		goal_layer = layer
-
+		
 	if not is_tile_exists:
-		print("no tile")
 		return
 
 	var tile_atlas_coordinates = get_cell_atlas_coords(goal_layer, tile_coordinates)
 	if not avaliable_to_crop_tiles_atlas.has(tile_atlas_coordinates):
-		print("can't plow this tile")
 		return
 
-	var crop_atlas_pos: Vector2i = Vector2i(2, 6)
-	set_cell(1, tile_coordinates, 3, crop_atlas_pos)
+	var crop_atlas_pos: Vector2i = Vector2i(1, 1)
+	plowed_tiles.push_back(tile_coordinates)
+	set_cell(PLOWS_LAYER, tile_coordinates, 3, crop_atlas_pos)
+	set_cells_terrain_connect(PLOWS_LAYER, plowed_tiles, 0, 1, false)
+
+

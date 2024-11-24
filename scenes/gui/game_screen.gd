@@ -6,5 +6,5 @@ func _ready() -> void:
 	pass
 
 func _process(_delta: float) -> void:
-	var br_seeds = str(player.seeds["beetroot"])
-	$BeetrootSeeds.text = "beetroot_seeds: " + br_seeds
+	$SelectedItemLabel.text = "Selected item: " + player.selected_item_label
+	$BeetrootSeedsLabel.text = "Beetroot seeds amount: " + str(player.seeds["beetroot"])

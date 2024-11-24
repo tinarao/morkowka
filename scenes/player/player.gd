@@ -7,7 +7,8 @@ var anim_name: String
 enum State {
 	Idle,
 	Walk,
-	TreeChop
+	Plow,
+	Seeding
 }
 
 enum Direction {
@@ -27,12 +28,12 @@ var directionDict: Dictionary = {
 var stateDict: Dictionary = {
 	0: "idle",
 	1: "walk",
-	2: "treechop",
+	2: "plow",
+	3: "seeding"
 }
 
 @onready var action_timer: Timer = $ActionTimer
 
-var inventory: Inventory
 var direction: Direction = Direction.Down
 var state: State = State.Idle
 var move_vec: Vector2 = Vector2.ZERO
@@ -42,13 +43,27 @@ var seeds: Dictionary = {
 	"beetroot": 0
 }
 
+enum HandItems {
+	Empty,
+	BeetrootSeeds,
+	Hoe,
+}
+
+var hand_items_labels = {
+	1: "beetroot_seeds",
+	2: "hoe",
+	0: "empty"
+}
+
+var selected_item: HandItems = HandItems.Empty
+var selected_item_label: String = hand_items_labels[selected_item]
+
 func _ready() -> void:
-	inventory = Inventory.new()
-	for n in 8:
-		inventory.add_item("beetroot_seeds")
+	seeds["beetroot"] = 8
+	pass
 
 func _process(_delta: float) -> void:
-	seeds["beetroot"] = inventory.items.count("beetroot_seeds")
+	selected_item_label = hand_items_labels[selected_item]
 
 	handle_controls()
 	handle_directions()
@@ -68,6 +83,14 @@ func handle_controls() -> void:
 		is_action = true
 		action_timer.start()
 
+func _input(event: InputEvent) -> void:
+	if event.as_text() == "0":
+		selected_item = HandItems.Empty
+	elif event.as_text() == "1":
+		selected_item = HandItems.Hoe
+	elif event.as_text() == "2":
+		selected_item = HandItems.BeetrootSeeds
+
 func handle_directions() -> void:
 	if Input.is_action_just_pressed("ui_left"):
 		direction = Direction.Left
@@ -82,8 +105,13 @@ func handle_directions() -> void:
 		direction = Direction.Down
 
 func handle_states() -> void:
-	if is_action:
-		state = State.TreeChop
+	if is_action and selected_item == HandItems.Hoe:
+		state = State.Plow
+		return
+
+	if is_action and selected_item == HandItems.BeetrootSeeds:
+		state = State.Seeding
+		seeds["beetroot"] = seeds["beetroot"] - 1
 		return
 
 	if move_vec == Vector2.ZERO:
