@@ -1,8 +1,7 @@
-[gd_scene load_steps=6 format=3 uid="uid://cxffmbqocn3q5"]
+[gd_scene load_steps=5 format=3 uid="uid://cxffmbqocn3q5"]
 
-[ext_resource type="PackedScene" uid="uid://c36d3qucplkcc" path="res://World/WorldWater.tscn" id="1_8fwwj"]
+[ext_resource type="PackedScene" uid="uid://c50fu1rr8aqld" path="res://scenes/locations/world/world.tscn" id="2_1whuo"]
 [ext_resource type="PackedScene" uid="uid://c6e5pttyr0ghe" path="res://scenes/player/player.tscn" id="2_an0rt"]
-[ext_resource type="PackedScene" uid="uid://djuokxnepox0f" path="res://World/WorldMap.tscn" id="2_ix0o6"]
 [ext_resource type="PackedScene" uid="uid://xvu33jyjq4j4" path="res://scenes/gui/game_screen.tscn" id="4_03rio"]
 
 [sub_resource type="GDScript" id="GDScript_xgf1e"]
@@ -20,20 +19,17 @@ func _process(delta: float) -> void:
 "
 
 [node name="Game" type="Node2D"]
-script = SubResource("GDScript_xgf1e")
-
-[node name="WorldWaterLayer" parent="." instance=ExtResource("1_8fwwj")]
-position = Vector2(281, -183)
-
-[node name="WorldMap" parent="." instance=ExtResource("2_ix0o6")]
-z_index = 1
 y_sort_enabled = true
-position = Vector2(-889, 73)
+position = Vector2(0, -4)
+script = SubResource("GDScript_xgf1e")
 
 [node name="GameScreen" parent="." instance=ExtResource("4_03rio")]
 
-[node name="Player" parent="." instance=ExtResource("2_an0rt")]
-position = Vector2(-505, 385)
+[node name="WorldLayers" parent="." instance=ExtResource("2_1whuo")]
 
-[connection signal="plant_beetroot_signal" from="Player" to="WorldMap" method="_on_player_plant_beetroot_signal"]
-[connection signal="plow_signal" from="Player" to="WorldMap" method="_on_player_plow_signal"]
+[node name="Player" parent="." instance=ExtResource("2_an0rt")]
+z_index = 0
+position = Vector2(58, 241)
+
+[connection signal="plowed_successfully" from="WorldLayers" to="Player" method="_on_world_layers_plowed_successfully"]
+[connection signal="can_plow" from="Player" to="WorldLayers" method="_on_player_can_plow"]

@@ -2,7 +2,6 @@ extends CharacterBody2D
 
 
 const SPEED = 100.0
-var anim_name: String
 
 var move_vec: Vector2 = Vector2.ZERO
 
@@ -26,22 +25,25 @@ var selected_item: HandItems = HandItems.Empty
 var selected_item_label: String = hand_items_labels[selected_item]
 
 @onready var anim_tree: AnimationTree = $AnimationTree
+var latest_facing_direction: Vector2 = Vector2(0, 0)
+var plowing: bool = false
 
-# Signals
-signal plow_signal
-signal plant_beetroot_signal
+
+signal can_plow
+
+
 
 func _ready() -> void:
 	anim_tree.active = true
 	seeds["beetroot"] = 8
 
 func _process(_delta: float) -> void:
-	handle_animations()
-
-func _physics_process(_delta: float) -> void:
 	selected_item_label = hand_items_labels[selected_item]
 
+func _physics_process(_delta: float) -> void:
+	handle_animations()
 	handle_movement()
+
 	move_and_slide()
 
 func handle_movement() -> void:
@@ -57,34 +59,29 @@ func _input(event: InputEvent) -> void:
 		selected_item = HandItems.BeetrootSeeds
 
 	if Input.is_action_just_pressed("action"):
-		handle_actions()
+		match selected_item:
+			HandItems.Hoe:
+				plow()
+			HandItems.BeetrootSeeds:
+				print("plant a beetroot")
+	else:
+		plowing = false
+
 
 func handle_animations() -> void:
-	anim_tree.set("parameters/conditions/is_idle", velocity == Vector2.ZERO)
-	anim_tree.set("parameters/conditions/is_moving", velocity != Vector2.ZERO)
+	var idle = velocity == Vector2.ZERO
+	if !idle:
+		latest_facing_direction = velocity.normalized()
 
-	anim_tree.set("parameters/action/blend_position", move_vec)
-	anim_tree.set("parameters/idle/blend_position", move_vec)
-	anim_tree.set("parameters/move/blend_position", move_vec)
+	anim_tree.set("parameters/Idle/blend_position", latest_facing_direction)
+	anim_tree.set("parameters/Walk/blend_position", latest_facing_direction)
+	anim_tree.set("parameters/Plow/blend_position", latest_facing_direction)
 
-	if Input.is_action_just_pressed("action"):
-		anim_tree.set("parameters/conditions/action", true)
-	else:
-		anim_tree.set("parameters/conditions/action", false)
-
-func handle_actions() -> void:
-	match selected_item:
-		HandItems.Hoe:
-			plow()
-		HandItems.BeetrootSeeds:
-			plant_beetroot()
-
-# 
-# Actions
-# 
+#  Actions
 
 func plow() -> void:
-	plow_signal.emit()
+	can_plow.emit()
+	
 
-func plant_beetroot() -> void:
-	plant_beetroot_signal.emit()
+func _on_world_layers_plowed_successfully() -> void:
+	plowing = true
