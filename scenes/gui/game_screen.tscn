@@ -6,16 +6,23 @@
 script = ExtResource("1_jkld5")
 
 [node name="SelectedItemLabel" type="Label" parent="."]
-offset_left = 24.0
-offset_top = 24.0
-offset_right = 129.0
-offset_bottom = 47.0
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 113.0
+offset_bottom = 31.0
 text = "Selected Item"
 
 [node name="BeetrootSeedsLabel" type="Label" parent="."]
-offset_left = 24.0
-offset_top = 56.0
-offset_right = 213.0
-offset_bottom = 79.0
+offset_left = 8.0
+offset_top = 32.0
+offset_right = 197.0
+offset_bottom = 55.0
 text = "Beetroot Seeds Amount: 
 "
+
+[node name="DayLabel" type="Label" parent="."]
+offset_left = 8.0
+offset_top = 56.0
+offset_right = 48.0
+offset_bottom = 79.0
+text = "Day"

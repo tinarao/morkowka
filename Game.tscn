@@ -1,27 +1,21 @@
-[gd_scene load_steps=5 format=3 uid="uid://cxffmbqocn3q5"]
+[gd_scene load_steps=6 format=3 uid="uid://cxffmbqocn3q5"]
 
+[ext_resource type="Script" path="res://scenes/locations/world/day_night_modulator.gd" id="1_y3quy"]
 [ext_resource type="PackedScene" uid="uid://c50fu1rr8aqld" path="res://scenes/locations/world/world.tscn" id="2_1whuo"]
 [ext_resource type="PackedScene" uid="uid://c6e5pttyr0ghe" path="res://scenes/player/player.tscn" id="2_an0rt"]
+[ext_resource type="Texture2D" uid="uid://dsu2b62qphvdr" path="res://assets/Objects/daynightcycle-gradient-texture.tres" id="2_tssm8"]
 [ext_resource type="PackedScene" uid="uid://xvu33jyjq4j4" path="res://scenes/gui/game_screen.tscn" id="4_03rio"]
-
-[sub_resource type="GDScript" id="GDScript_xgf1e"]
-script/source = "extends Node2D
-
-
-# Called when the node enters the scene tree for the first time.
-func _ready() -> void:
-	pass # Replace with function body.
-
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	pass
-"
 
 [node name="Game" type="Node2D"]
 y_sort_enabled = true
 position = Vector2(0, -4)
-script = SubResource("GDScript_xgf1e")
+
+[node name="DayNightModulator" type="CanvasModulate" parent="."]
+color = Color(0.191559, 0.405519, 0.615669, 1)
+script = ExtResource("1_y3quy")
+gradient = ExtResource("2_tssm8")
+ingame_speed = 4.0
+initial_hour = 3
 
 [node name="GameScreen" parent="." instance=ExtResource("4_03rio")]
 
@@ -31,6 +25,7 @@ script = SubResource("GDScript_xgf1e")
 z_index = 0
 position = Vector2(58, 241)
 
+[connection signal="time_tick" from="DayNightModulator" to="GameScreen" method="_on_day_night_modulator_time_tick"]
 [connection signal="planted_beetroot_successfully" from="WorldLayers" to="Player" method="_on_world_layers_planted_beetroot_successfully"]
 [connection signal="plowed_successfully" from="WorldLayers" to="Player" method="_on_world_layers_plowed_successfully"]
 [connection signal="can_plant_a_beetroot" from="Player" to="WorldLayers" method="_on_player_can_plant_a_beetroot"]

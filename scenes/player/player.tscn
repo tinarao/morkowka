@@ -1,4 +1,4 @@
-[gd_scene load_steps=43 format=3 uid="uid://c6e5pttyr0ghe"]
+[gd_scene load_steps=45 format=3 uid="uid://c6e5pttyr0ghe"]
 
 [ext_resource type="Texture2D" uid="uid://lexmi1ywwwpb" path="res://assets/Characters/Basic Charakter Spritesheet.png" id="1_7noie"]
 [ext_resource type="Script" path="res://scenes/player/player.gd" id="1_vu3vp"]
@@ -806,6 +806,15 @@ _data = {
 "walk_up": SubResource("Animation_r8ofk")
 }
 
+[sub_resource type="Gradient" id="Gradient_p8ry7"]
+offsets = PackedFloat32Array(0, 0.668831)
+colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_bppxy"]
+gradient = SubResource("Gradient_p8ry7")
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+
 [node name="Player" type="CharacterBody2D"]
 z_index = 1
 z_as_relative = false
@@ -851,3 +860,9 @@ libraries = {
 "": SubResource("AnimationLibrary_xifdg")
 }
 speed_scale = 2.0
+
+[node name="Torch" type="PointLight2D" parent="."]
+color = Color(0.734745, 0.723493, 7.70092e-07, 1)
+energy = 0.5
+texture = SubResource("GradientTexture2D_bppxy")
+texture_scale = 2.0

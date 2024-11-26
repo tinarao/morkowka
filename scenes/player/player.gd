@@ -16,15 +16,16 @@ enum HandItems {
 }
 
 var hand_items_labels = {
+	0: "empty",
 	1: "beetroot_seeds",
 	2: "hoe",
-	0: "empty"
 }
 
 var selected_item: HandItems = HandItems.Empty
 var selected_item_label: String = hand_items_labels[selected_item]
 
 @onready var anim_tree: AnimationTree = $AnimationTree
+@onready var Torch: PointLight2D = $Torch
 var latest_facing_direction: Vector2 = Vector2(0, 0)
 var plowing: bool = false
 
@@ -57,6 +58,10 @@ func _input(event: InputEvent) -> void:
 		selected_item = HandItems.Hoe
 	elif event.as_text() == "2":
 		selected_item = HandItems.BeetrootSeeds
+
+	if Input.is_action_just_pressed("ui_torch"):
+		print(Torch.enabled)
+		Torch.set("enabled", !Torch.enabled)
 
 	if Input.is_action_just_pressed("action"):
 		match selected_item:
@@ -92,5 +97,4 @@ func plant_a_beetroot() -> void:
 
 func _on_world_layers_planted_beetroot_successfully() -> void:
 	print("play beetroot plant animation here")
-
 	seeds["beetroot"] = seeds["beetroot"] - 1

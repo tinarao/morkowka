@@ -8,3 +8,7 @@ func _ready() -> void:
 func _process(_delta: float) -> void:
 	$SelectedItemLabel.text = "Selected item: " + player.selected_item_label
 	$BeetrootSeedsLabel.text = "Beetroot seeds amount: " + str(player.seeds["beetroot"])
+
+
+func _on_day_night_modulator_time_tick(day: int, hour: int, _minute: int) -> void:
+	$DayLabel.text = "Day: %d\nHour: %d" % [day, hour]
