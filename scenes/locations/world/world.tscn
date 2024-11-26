@@ -1,9 +1,10 @@
-[gd_scene load_steps=11 format=4 uid="uid://c50fu1rr8aqld"]
+[gd_scene load_steps=14 format=4 uid="uid://c50fu1rr8aqld"]
 
 [ext_resource type="Texture2D" uid="uid://bm221pfwfog2t" path="res://assets/Tilesets/Hills.png" id="1_87i3i"]
 [ext_resource type="Script" path="res://scenes/locations/world/world.gd" id="1_gw0fg"]
 [ext_resource type="Texture2D" uid="uid://df8k54t7hm7xn" path="res://assets/Objects/Basic_Grass_Biom_things.png" id="2_383oy"]
 [ext_resource type="Texture2D" uid="uid://iho4vkcqnpnx" path="res://assets/Tilesets/Tilled_Dirt_Wide.png" id="3_re5fq"]
+[ext_resource type="Texture2D" uid="uid://bvy4xa8wpwecv" path="res://assets/Objects/Basic_Plants.png" id="5_sg1ie"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ytl7a"]
 texture = ExtResource("1_87i3i")
@@ -886,16 +887,28 @@ texture = ExtResource("3_re5fq")
 8:4/0/terrains_peering_bit/left_side = 0
 8:4/0/terrains_peering_bit/top_side = 0
 0:5/0 = 0
+0:5/0/terrain_set = 0
+0:5/0/probability = 0.05
 1:5/0 = 0
+1:5/0/terrain_set = 0
+1:5/0/probability = 0.05
 2:5/0 = 0
+2:5/0/terrain_set = 0
+2:5/0/probability = 0.05
 5:5/0 = 0
 6:5/0 = 0
 7:5/0 = 0
 8:5/0 = 0
 9:5/0 = 0
 0:6/0 = 0
+0:6/0/terrain_set = 0
+0:6/0/probability = 0.05
 1:6/0 = 0
+1:6/0/terrain_set = 0
+1:6/0/probability = 0.05
 2:6/0 = 0
+2:6/0/terrain_set = 0
+2:6/0/probability = 0.05
 5:6/0 = 0
 6:6/0 = 0
 8:6/0 = 0
@@ -906,6 +919,25 @@ terrain_set_0/mode = 0
 terrain_set_0/terrain_0/name = "Plows"
 terrain_set_0/terrain_0/color = Color(0.310954, 0.432, 8.66354e-07, 1)
 sources/1 = SubResource("TileSetAtlasSource_4m5xr")
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_jys56"]
+texture = ExtResource("5_sg1ie")
+0:0/0 = 0
+1:0/0 = 0
+2:0/0 = 0
+3:0/0 = 0
+4:0/0 = 0
+5:0/0 = 0
+0:1/0 = 0
+1:1/0 = 0
+1:1/0/texture_origin = Vector2i(0, 4)
+2:1/0 = 0
+3:1/0 = 0
+4:1/0 = 0
+5:1/0 = 0
+
+[sub_resource type="TileSet" id="TileSet_w5m0e"]
+sources/0 = SubResource("TileSetAtlasSource_jys56")
 
 [node name="WorldLayers" type="Node2D"]
 y_sort_enabled = true
@@ -922,3 +954,7 @@ tile_set = SubResource("TileSet_yhwuh")
 
 [node name="Plows" type="TileMapLayer" parent="."]
 tile_set = SubResource("TileSet_p1fg1")
+
+[node name="PlantedVeggies" type="TileMapLayer" parent="."]
+tile_map_data = PackedByteArray("AADz/xEAAAABAAEAAAA=")
+tile_set = SubResource("TileSet_w5m0e")

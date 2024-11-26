@@ -30,12 +30,12 @@ var plowing: bool = false
 
 
 signal can_plow
-
+signal can_plant_a_beetroot
 
 
 func _ready() -> void:
 	anim_tree.active = true
-	seeds["beetroot"] = 8
+	seeds["beetroot"] = 9
 
 func _process(_delta: float) -> void:
 	selected_item_label = hand_items_labels[selected_item]
@@ -63,10 +63,9 @@ func _input(event: InputEvent) -> void:
 			HandItems.Hoe:
 				plow()
 			HandItems.BeetrootSeeds:
-				print("plant a beetroot")
+				plant_a_beetroot()
 	else:
 		plowing = false
-
 
 func handle_animations() -> void:
 	var idle = velocity == Vector2.ZERO
@@ -77,11 +76,21 @@ func handle_animations() -> void:
 	anim_tree.set("parameters/Walk/blend_position", latest_facing_direction)
 	anim_tree.set("parameters/Plow/blend_position", latest_facing_direction)
 
-#  Actions
+# Actions
 
+# Plow
 func plow() -> void:
 	can_plow.emit()
 	
-
 func _on_world_layers_plowed_successfully() -> void:
 	plowing = true
+
+# Beetroot plant
+func plant_a_beetroot() -> void:
+	if seeds["beetroot"] > 0:
+		can_plant_a_beetroot.emit()
+
+func _on_world_layers_planted_beetroot_successfully() -> void:
+	print("play beetroot plant animation here")
+
+	seeds["beetroot"] = seeds["beetroot"] - 1

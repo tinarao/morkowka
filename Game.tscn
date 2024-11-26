@@ -31,5 +31,7 @@ script = SubResource("GDScript_xgf1e")
 z_index = 0
 position = Vector2(58, 241)
 
+[connection signal="planted_beetroot_successfully" from="WorldLayers" to="Player" method="_on_world_layers_planted_beetroot_successfully"]
 [connection signal="plowed_successfully" from="WorldLayers" to="Player" method="_on_world_layers_plowed_successfully"]
+[connection signal="can_plant_a_beetroot" from="Player" to="WorldLayers" method="_on_player_can_plant_a_beetroot"]
 [connection signal="can_plow" from="Player" to="WorldLayers" method="_on_player_can_plow"]
