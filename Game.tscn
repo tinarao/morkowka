@@ -14,6 +14,7 @@ position = Vector2(0, -4)
 color = Color(0.191559, 0.405519, 0.615669, 1)
 script = ExtResource("1_y3quy")
 gradient = ExtResource("2_tssm8")
+ingame_speed = 8.0
 
 [node name="GameScreen" parent="." instance=ExtResource("4_03rio")]
 
@@ -26,7 +27,9 @@ position = Vector2(58, 241)
 [connection signal="day_tick" from="DayNightModulator" to="WorldLayers" method="_on_day_night_modulator_day_tick"]
 [connection signal="time_tick" from="DayNightModulator" to="GameScreen" method="_on_day_night_modulator_time_tick"]
 [connection signal="time_tick" from="DayNightModulator" to="WorldLayers" method="_on_day_night_modulator_time_tick"]
+[connection signal="plant_removed" from="WorldLayers" to="Player" method="_on_world_layers_plant_removed"]
 [connection signal="planted_beetroot_successfully" from="WorldLayers" to="Player" method="_on_world_layers_planted_beetroot_successfully"]
 [connection signal="plowed_successfully" from="WorldLayers" to="Player" method="_on_world_layers_plowed_successfully"]
 [connection signal="can_plant_a_beetroot" from="Player" to="WorldLayers" method="_on_player_can_plant_a_beetroot"]
 [connection signal="can_plow" from="Player" to="WorldLayers" method="_on_player_can_plow"]
+[connection signal="remove_plant" from="Player" to="WorldLayers" method="_on_player_remove_plant"]

@@ -32,7 +32,7 @@ var plowing: bool = false
 
 signal can_plow
 signal can_plant_a_beetroot
-
+signal remove_plant
 
 func _ready() -> void:
 	Torch.enabled = false
@@ -62,6 +62,9 @@ func _input(event: InputEvent) -> void:
 
 	if Input.is_action_just_pressed("ui_torch"):
 		Torch.set("enabled", !Torch.enabled)
+	
+	if Input.is_action_just_pressed("additional_action"):
+		remove_plant.emit()
 
 	if Input.is_action_just_pressed("action"):
 		match selected_item:
@@ -97,3 +100,6 @@ func plant_a_beetroot() -> void:
 
 func _on_world_layers_planted_beetroot_successfully() -> void:
 	seeds["beetroot"] = seeds["beetroot"] - 1
+
+func _on_world_layers_plant_removed(seeds_to_return: int) -> void:
+	seeds["beetroot"] += seeds_to_return

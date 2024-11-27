@@ -33,6 +33,7 @@ var planted_veggies = []
 # Signals
 signal plowed_successfully
 signal planted_beetroot_successfully
+signal plant_removed(seeds_to_return: int)
 
 func _on_player_can_plow() -> void:
 	var mouse_pos = get_local_mouse_position()
@@ -57,8 +58,8 @@ func _on_player_can_plant_a_beetroot() -> void:
 	var new_planted_veggie = PlantedVeggie.new(tile_coordinates, BASIC_BEETROOT_SPRITE_ATLAS)
 
 	var is_err: bool = false
-	for n in range(len(planted_veggies)):
-		if planted_veggies[n].tile_coordinates == tile_coordinates:
+	for veg in planted_veggies:
+		if veg.tile_coordinates == tile_coordinates:
 			is_err = true
 			break
 
@@ -73,17 +74,34 @@ func _on_player_can_plant_a_beetroot() -> void:
 func _on_day_night_modulator_day_tick(_day: int, _elapsed_minutes: int) -> void:
 	for n in range(len(planted_veggies)):
 		var coinflip = randi() % 61
-		if coinflip > 45:
-			var veggie = planted_veggies[n]
-			veggie.increase_stage()
-			change_grown_plant_sprite(veggie)
+		if coinflip > 47:
+			if planted_veggies[n].atlas_coordinates == Vector2i(4, 1):
+				return
 
-func change_grown_plant_sprite(veggie: PlantedVeggie):
-	if veggie.atlas_coordinates == Vector2i(4, 1):
+			var new_atlas = Vector2i(
+				planted_veggies[n].atlas_coordinates.x + 1,
+				planted_veggies[n].atlas_coordinates.y
+			)
+			planted_veggies[n].atlas_coordinates = new_atlas
+			PlantedVeggies.set_cell(planted_veggies[n].tile_coordinates, 0, new_atlas)
+
+func _on_player_remove_plant() -> void:
+	var mouse_pos = get_local_mouse_position()
+	var tile_coordinates = Plows.local_to_map(mouse_pos)
+	var tile = Plows.get_cell_tile_data(tile_coordinates)
+
+	if tile == null:
 		return
 
-	var new_atlas = Vector2i(
-		veggie.atlas_coordinates.x + 1,
-		veggie.atlas_coordinates.y
-	)
-	PlantedVeggies.set_cell(veggie.tile_coordinates, 0, new_atlas)
+	for veggie in planted_veggies:
+		if veggie.tile_coordinates == tile_coordinates:
+			PlantedVeggies.set_cell(veggie.tile_coordinates, -1)
+			planted_veggies.remove_at(planted_veggies.find(veggie, 0))
+
+			if veggie.atlas_coordinates == Vector2i(4, 0) or veggie.atlas_coordinates == Vector2i(4, 1):
+				var seeds_to_return_amount = randi() % 3
+				plant_removed.emit(2 + seeds_to_return_amount)
+				return
+
+			plant_removed.emit(1)
+			

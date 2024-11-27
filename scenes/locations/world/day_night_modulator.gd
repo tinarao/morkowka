@@ -40,7 +40,6 @@ func recalculate_time() -> void:
 
 	if past_day != day:
 		past_day = day
-		print(day == past_day)
 		day_tick.emit(day, elapsed_minutes)
 
 	if past_minute != minute:
