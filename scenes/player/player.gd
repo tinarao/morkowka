@@ -35,6 +35,7 @@ signal can_plant_a_beetroot
 
 
 func _ready() -> void:
+	Torch.enabled = false
 	anim_tree.active = true
 	seeds["beetroot"] = 9
 
@@ -60,7 +61,6 @@ func _input(event: InputEvent) -> void:
 		selected_item = HandItems.BeetrootSeeds
 
 	if Input.is_action_just_pressed("ui_torch"):
-		print(Torch.enabled)
 		Torch.set("enabled", !Torch.enabled)
 
 	if Input.is_action_just_pressed("action"):
@@ -96,5 +96,4 @@ func plant_a_beetroot() -> void:
 		can_plant_a_beetroot.emit()
 
 func _on_world_layers_planted_beetroot_successfully() -> void:
-	print("play beetroot plant animation here")
 	seeds["beetroot"] = seeds["beetroot"] - 1

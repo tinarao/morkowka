@@ -27,8 +27,8 @@ const HILLS_TILES_ALLOWED_TO_PLOW = [
 # Vector2i[]
 var PLOWED_TILES = []
 
-# Vector2i[]
-var PLANTED_SEEDS = []
+# PlantedVeggie[]
+var planted_veggies = []
 
 # Signals
 signal plowed_successfully
@@ -54,10 +54,36 @@ func _on_player_can_plant_a_beetroot() -> void:
 	if tile == null:
 		return
 
-	if PLANTED_SEEDS.has(tile_coordinates):
+	var new_planted_veggie = PlantedVeggie.new(tile_coordinates, BASIC_BEETROOT_SPRITE_ATLAS)
+
+	var is_err: bool = false
+	for n in range(len(planted_veggies)):
+		if planted_veggies[n].tile_coordinates == tile_coordinates:
+			is_err = true
+			break
+
+	if is_err: 
 		return
 
-	PLANTED_SEEDS.push_back(tile_coordinates)
+	planted_veggies.push_back(new_planted_veggie)
 	PlantedVeggies.set_cell(tile_coordinates, 0, BASIC_BEETROOT_SPRITE_ATLAS)
 	
 	planted_beetroot_successfully.emit()
+
+func _on_day_night_modulator_day_tick(_day: int, _elapsed_minutes: int) -> void:
+	for n in range(len(planted_veggies)):
+		var coinflip = randi() % 61
+		if coinflip > 45:
+			var veggie = planted_veggies[n]
+			veggie.increase_stage()
+			change_grown_plant_sprite(veggie)
+
+func change_grown_plant_sprite(veggie: PlantedVeggie):
+	if veggie.atlas_coordinates == Vector2i(4, 1):
+		return
+
+	var new_atlas = Vector2i(
+		veggie.atlas_coordinates.x + 1,
+		veggie.atlas_coordinates.y
+	)
+	PlantedVeggies.set_cell(veggie.tile_coordinates, 0, new_atlas)
